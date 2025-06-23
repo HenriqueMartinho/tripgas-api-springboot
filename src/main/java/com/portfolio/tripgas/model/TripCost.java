@@ -1,29 +1,31 @@
 package com.portfolio.tripgas.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.portfolio.tripgas.external.cardto.DataDTO;
-import com.portfolio.tripgas.external.mapsdto.route.SummaryDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.math.BigDecimal;
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Component
 public class TripCost {
 
     @JsonIgnoreProperties({"model_id", "epa_city_mpg", "epa_highway_mpg"})
-    private DataDTO car;
+    private CarDetails car;
 
-    private SummaryDTO route;
+    private RouteSummary route;
 
     @JsonProperty("gasoline_price")
     private double gasolinePrice = 6.19;
 
     @JsonProperty("fuel_needeed")
-    private double fuelNedeed;
+    private BigDecimal fuelNedeed;
     @JsonProperty("estimated_cost")
-    private double estimatedCost;
+    private BigDecimal estimatedCost;
 
 }

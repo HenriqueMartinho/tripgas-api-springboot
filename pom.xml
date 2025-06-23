@@ -12,7 +12,7 @@
 	<artifactId>tripgas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tripgas</name>
-	<description>An API to estimate how much gasoline the user will need to complete a route</description>
+	<description>An API to estimate how much gasoline the user will need to complete a routeSummary</description>
 	<url/>
 	<licenses>
 		<license/>

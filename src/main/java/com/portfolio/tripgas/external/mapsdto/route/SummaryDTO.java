@@ -1,12 +1,9 @@
 package com.portfolio.tripgas.external.mapsdto.route;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class SummaryDTO {
     private double distance;
     private double duration;

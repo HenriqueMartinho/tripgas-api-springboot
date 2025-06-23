@@ -1,13 +1,11 @@
 package com.portfolio.tripgas.external.cardto;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class CarResponse {
     private List<DataDTO> data;
 }
