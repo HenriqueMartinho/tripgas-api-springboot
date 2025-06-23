@@ -1,7 +1,6 @@
 package com.portfolio.tripgas.external.cardto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class DataDTO {
