@@ -1,39 +1,58 @@
 package com.portfolio.tripgas.external.mapsdto;
 
-import com.portfolio.tripgas.external.mapsdto.geocode.CoordinatesDTO;
+import com.portfolio.tripgas.exception.InvalidInputException;
+import com.portfolio.tripgas.exception.NotFoundException;
 import com.portfolio.tripgas.external.mapsdto.geocode.FeatureDTO;
 import com.portfolio.tripgas.external.mapsdto.geocode.GeocodeResponse;
 import com.portfolio.tripgas.external.mapsdto.route.RouteFeatureDTO;
 import com.portfolio.tripgas.external.mapsdto.route.RouteResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.InvalidClassException;
+import java.util.List;
 
 @Controller
 public class MapsClient {
 
+    @Value("${keys.external.map-api}")
+    private String apiKey;
+
+    private RestTemplate restTemplate = new RestTemplate();
+
     public FeatureDTO getGeocode(String adress){
-        RestTemplate restTemplate = new RestTemplate();
+
         GeocodeResponse response = restTemplate
-                .getForObject(String.format("https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf6248b27d1bfc471d4a588bc0afc3716fc088"
-                        + "&text=%s", adress), GeocodeResponse.class);
+                .getForObject(String.format("https://api.openrouteservice.org/geocode/search"
+                        + "?api_key=" + apiKey
+                        + "&text=" + adress), GeocodeResponse.class);
+
+        if(response.getFeatures().isEmpty()){
+            throw new InvalidInputException(("'" + adress + "' it's not a valid adress"));
+        }
 
         return response.getFeatures().get(0);
     }
 
-    public RouteFeatureDTO getRoute(String route){
-        RestTemplate restTemplate = new RestTemplate();
+    public RouteFeatureDTO getRoute(String startPoint, String endPoint){
+        String start = getGeocode(startPoint).getGeometry().getCoordinates().get(0).toString()
+                + "," +  getGeocode(startPoint).getGeometry().getCoordinates().get(1).toString();
 
-        CoordinatesDTO coordStart = getGeocode(route.substring(0, route.indexOf("-"))).getGeometry();
-        CoordinatesDTO coordEnd = getGeocode(route.substring(route.indexOf("-") + 1, route.length())).getGeometry();
-
-        String start = coordStart.getCoordinates().get(0).toString() + "," +  coordStart.getCoordinates().get(1).toString();
-        String end = coordEnd.getCoordinates().get(0).toString() + "," + coordEnd.getCoordinates().get(1).toString();
+        String end = getGeocode(endPoint).getGeometry().getCoordinates().get(0).toString()
+                + "," +  getGeocode(endPoint).getGeometry().getCoordinates().get(1).toString();
 
         RouteResponse response = restTemplate
-                .getForObject(String.format("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248b27d1bfc471d4a588bc0afc3716fc088"
-                     + "&start=%s&end=%s", start, end), RouteResponse.class);
+                .getForObject(String.format("https://api.openrouteservice.org/v2/directions/driving-car"
+                        + "?api_key=" + apiKey
+                        + "&start=" + start
+                        + "&end=" +  end), RouteResponse.class);
 
         return response.getFeatures().get(0);
+    }
+
+    public List<Double> getCoords (String adress){
+        return getGeocode(adress).getGeometry().getCoordinates();
     }
 
 }

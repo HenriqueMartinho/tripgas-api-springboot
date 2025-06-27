@@ -1,16 +1,20 @@
 spring:
   application:
     name: tripgas
-#  datasource:
-#    url: jdbc:postgresql://localhost:5431/tripgas
-#    username: root
-#    password: 1234
-#    driver-class-name: org.postgresql.Driver
-#  jpa:
+
+  datasource:
+    url: jdbc:postgresql://localhost:1337/tripgas
+    username: root
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
 #    show-sql: true
-#    hibernate:
-#      ddl-auto: update
-#    properties:
-#      hibernate:
-#        format-sql: true
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+keys:
+  external:
+    map-api: 5b3ce3597851110001cf6248b27d1bfc471d4a588bc0afc3716fc088

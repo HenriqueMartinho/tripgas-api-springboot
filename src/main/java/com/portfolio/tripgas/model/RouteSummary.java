@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 @Component
 public class RouteSummary {
     private BigDecimal distance;
-    private BigDecimal duration;
+    private String duration;
 }

@@ -1,9 +1,9 @@
 package com.portfolio.tripgas.exception;
 
-public class CarNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 
-    public CarNotFoundException(){ super("Car not found"); }
+    public NotFoundException(){ super("Not Found"); }
 
-    public CarNotFoundException(String message){ super(message); }
+    public NotFoundException(String message){ super(message); }
 
 }
