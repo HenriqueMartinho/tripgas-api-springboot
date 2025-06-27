@@ -35,8 +35,8 @@ public class UserRouteController {
         }
     }
 
-    @GetMapping("/user-routes/route-id")
-    public ResponseEntity<?> findById(@RequestParam Long id){
+    @GetMapping("/user-routes/route-id/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id){
         try{
             return ResponseEntity.ok().body(userRouteService.findById(id));
         } catch (NotFoundException e){
@@ -44,8 +44,8 @@ public class UserRouteController {
         }
     }
 
-    @GetMapping("/user-routes/route-adress")
-    public ResponseEntity<?> findByAdress(@RequestParam String adress){
+    @GetMapping("/user-routes/route-adress/{adress}")
+    public ResponseEntity<?> findByAdress(@PathVariable String adress){
         try{
             return ResponseEntity.ok().body(userRouteService.findByAdress(adress));
         } catch (NotFoundException e){
@@ -53,15 +53,35 @@ public class UserRouteController {
         }
     }
 
-    @PutMapping("user-routes/update-route")
-    public ResponseEntity<String> updateRoute(@RequestParam Long id,
+    @PutMapping("/user-routes/update-route/{id}")
+    public ResponseEntity<String> updateRoute(@PathVariable Long id,
                                               @RequestParam(required = false) String updateStart,
                                               @RequestParam(required = false) String updateEnd){
 
-        String responseMessage = userRouteService.updateRoute(id, updateStart, updateEnd);
+        String response = "";
+
+        try{
+            response = userRouteService.updateRoute(id, updateStart, updateEnd);
+        } catch (NotFoundException e){
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
 
         return ResponseEntity.ok().body("Route Updated at ID " + id
-                + "\n" + responseMessage);
+                + "\n" + response);
+    }
+
+    @DeleteMapping("/user-routes/delete-route/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+
+        String response = "";
+
+        try{
+            response = userRouteService.deleteRoute(id);
+        } catch (NotFoundException e){
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
+        return ResponseEntity.ok().body(response);
     }
 
 }

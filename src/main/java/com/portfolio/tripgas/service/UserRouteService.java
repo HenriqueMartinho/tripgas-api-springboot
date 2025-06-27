@@ -31,7 +31,7 @@ public class UserRouteService {
 
     public List<UserRoute> findAll(){
 
-        List<UserRoute> userRoutes = findAll();
+        List<UserRoute> userRoutes = userRouteRepository.findAll();
 
         if(userRoutes.isEmpty()){
             throw new NotFoundException("There's no saved routes");
@@ -46,9 +46,9 @@ public class UserRouteService {
             throw new NotFoundException("No routes assign to ID " + id);
         }
 
-        UserRoute userRoute = findById(id);
+        Optional<UserRoute> userRoute = userRouteRepository.findById(id);
 
-        return userRoute;
+        return userRoute.get();
     }
 
     public List<UserRoute> findByAdress(String adress){
@@ -60,8 +60,8 @@ public class UserRouteService {
 
         for (UserRoute user : userRoutes) {
 
-            List<Double> start = mapsClient.getCoords(user.getStartPoint());
-            List<Double> end = mapsClient.getCoords(user.getEndPoint());
+            List<Double> start = user.getStartCoord();
+            List<Double> end = user.getEndCoord();
 
             if (start.equals(searchAdress) || end.equals(searchAdress)) {
                 response.add(user);
@@ -97,6 +97,15 @@ public class UserRouteService {
         userRouteRepository.save(userRoute);
 
         return response;
+    }
+
+    public String deleteRoute(Long id){
+
+        if(findById(id) == null) throw new NotFoundException("No routes assign to ID: " + id);
+
+        userRouteRepository.delete(findById(id));
+
+        return "Route " + id + " deleted!";
     }
 
 }
