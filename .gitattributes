@@ -1,2 +1,5 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
+
+*.yml linguist-detectable=true
+*.xml linguist-detectable=true
