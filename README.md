@@ -138,7 +138,7 @@ Cobertura de testes para serviços e validações.
 ## 📌 Melhorias Futuras
 
 - Autenticação JWT
-- 
+
 ---
 
 ## 👤 Autor
