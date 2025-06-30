@@ -104,13 +104,16 @@ POST /api/v1/trip/calculate
 
 ## 🔗 Documentação da API
 
-Disponível em: `http://localhost:8080/swagger-ui/index.html`
+Disponível em: `http://localhost:8080/swagger-ui/index.html` 
 
-| Método | Endpoint                    | Descrição                         |
-|--------|-----------------------------|-----------------------------------|
-| POST   | `/api/v1/trip/calculate`    | Calcula custo da viagem           |
-| GET    | `/api/v1/routes`            | Lista rotas registradas           |
-| GET    | `/api/v1/vehicles`          | Lista veículos cadastrados        |
+| Método | Endpoint                             | Descrição                         |
+|--------|--------------------------------------|-----------------------------------|
+| POST   | `/api/user-routes/save-route`        | Salva rotas do usuário            |
+| PATCH  | `/api/user-routes/save-route/{id}`   | Atualiza rota pelo ID             |
+| GET    | `/api/user-routes`                   | Retorna todas rotas salvas        |
+| GET    | `/api/user-routes/route-id/{id}`     | Retorna rota pelo ID              |
+| GET    | `/api/user-routes/route-adress`      | Retorna rota pelo(s) endereço(s)  |
+| DELETE | `/api/user-routes/delete-route/{id}` | Deleta rota pelo ID               |
 
 ---
 
