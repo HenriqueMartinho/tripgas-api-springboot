@@ -36,11 +36,13 @@ public class MapsClient {
     }
 
     public RouteFeatureDTO getRoute(String startPoint, String endPoint){
-        String start = getGeocode(startPoint).getGeometry().getCoordinates().get(0).toString()
-                + "," +  getGeocode(startPoint).getGeometry().getCoordinates().get(1).toString();
+        List<Double> startCoord = getGeocode(startPoint).getGeometry().getCoordinates();
+        List<Double> endCoord = getGeocode(endPoint).getGeometry().getCoordinates();
 
-        String end = getGeocode(endPoint).getGeometry().getCoordinates().get(0).toString()
-                + "," +  getGeocode(endPoint).getGeometry().getCoordinates().get(1).toString();
+        String start = startCoord.get(0).toString()
+                + "," +  startCoord.get(1).toString();
+        String end = endCoord.get(0).toString()
+                + "," +  endCoord.get(1).toString();
 
         RouteResponse response = restTemplate
                 .getForObject(String.format("https://api.openrouteservice.org/v2/directions/driving-car"

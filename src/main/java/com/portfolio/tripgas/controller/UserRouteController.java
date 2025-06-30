@@ -1,5 +1,6 @@
 package com.portfolio.tripgas.controller;
 
+import com.portfolio.tripgas.exception.InvalidInputException;
 import com.portfolio.tripgas.exception.NotFoundException;
 import com.portfolio.tripgas.service.UserRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UserRouteController {
             );
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (InvalidInputException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -44,16 +47,19 @@ public class UserRouteController {
         }
     }
 
-    @GetMapping("/user-routes/route-adress/{adress}")
-    public ResponseEntity<?> findByAdress(@PathVariable String adress){
+    @GetMapping("/user-routes/route-adress")
+    public ResponseEntity<?> findByAdress(@RequestParam(required = false) String startPoint,
+                                          @RequestParam(required = false) String endPoint){
         try{
-            return ResponseEntity.ok().body(userRouteService.findByAdress(adress));
+            return ResponseEntity.ok().body(userRouteService.findByAdress(startPoint, endPoint));
         } catch (NotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (InvalidInputException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PutMapping("/user-routes/update-route/{id}")
+    @PatchMapping("/user-routes/update-route/{id}")
     public ResponseEntity<String> updateRoute(@PathVariable Long id,
                                               @RequestParam(required = false) String updateStart,
                                               @RequestParam(required = false) String updateEnd){
@@ -62,12 +68,11 @@ public class UserRouteController {
 
         try{
             response = userRouteService.updateRoute(id, updateStart, updateEnd);
+            return ResponseEntity.ok().body("Route Updated at ID " + id
+                    + "\n" + response);
         } catch (NotFoundException e){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        return ResponseEntity.ok().body("Route Updated at ID " + id
-                + "\n" + response);
     }
 
     @DeleteMapping("/user-routes/delete-route/{id}")
@@ -77,11 +82,10 @@ public class UserRouteController {
 
         try{
             response = userRouteService.deleteRoute(id);
+            return ResponseEntity.ok().body(response);
         } catch (NotFoundException e){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        return ResponseEntity.ok().body(response);
     }
 
 }
