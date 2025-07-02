@@ -17,7 +17,7 @@
 
 ## 📌 Sobre o Projeto
 
-A **TripGas API** é uma aplicação REST desenvolvida com Spring Boot, que estima o custo de uma viagem rodoviária com base na distância entre dois pontos, consumo do veículo e preço do combustível. Um projeto ideal para portfólios de desenvolvedores back-end com foco em integração de APIs, persistência e boas práticas de arquitetura.
+A **TripGas API** é uma aplicação REST desenvolvida com Spring Boot, que estima o custo de uma viagem rodoviária com base na distância entre dois pontos, consumo do veículo e preço do combustível.
 
 ---
 
@@ -67,37 +67,6 @@ Execute a aplicação:
 
 ```bash
 mvn spring-boot:run
-```
-
----
-
-## 💻 Uso
-
-### Requisição de cálculo
-
-```json
-POST /api/v1/trip/calculate
-
-{
-  "origin": "São Paulo, SP",
-  "destination": "Campinas, SP",
-  "vehicle": {
-    "consumption": 12.0,
-    "fuelType": "GASOLINE"
-  },
-  "fuelPrice": 5.89
-}
-```
-
-### Resposta esperada
-
-```json
-{
-  "tripId": "uuid",
-  "distance": 120.5,
-  "litersNeeded": 10.04,
-  "totalCost": 59.14
-}
 ```
 
 ---
